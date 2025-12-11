@@ -1,6 +1,6 @@
 # First-Aid-App Collaboration Guide
 
-JOEL DID A CHANGE!!!!!!
+JOEL DID A CHANGE!!!!!! AND ANOTHER
 
 ## How to set up this project on your Mac
 
