@@ -1,0 +1,25 @@
+{
+  "pathsToIds" : {
+    "\/RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/GridMaterial.usda" : "CB766F92-EE55-4A63-9401-E7B8C009764D",
+    "\/RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Immersive.usda" : "65F6F990-A780-4474-B78B-572E0E4E273D",
+    "\/RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Scene.usda" : "0A9B4653-B11E-4D6A-850E-C6FCB621626C",
+    "\/RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Untitled Scene.usda" : "D560BB77-AAF3-4BDE-B7C4-989332A4688B",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Airway.usda" : "1E908F61-93F6-4C5A-BABF-C1A8254DACEB",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/CPR.usda" : "AC55A7AF-9A8F-4950-A1F5-6D78FEFB017E",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/GridMaterial.usda" : "66168B71-AB05-424E-8B6C-D33D6E61B08F",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Immersive.usda" : "AF09ED6F-1707-48FD-8720-65B998362C09",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/New Scene with Objects.usda" : "D6B2F974-CD3D-49CF-92D9-14F749E2BB4F",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Recovery.usda" : "D1512A00-CCBE-49A1-96EE-20B25A6C25DF",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Scene.usda" : "D66134B1-3681-4A8E-AFE5-29F257229F3B",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/themantheman.usdc" : "D28F8929-F6A4-4178-B64C-8336071B81C5"
+  },
+  "projectID" : -3381823175567448840,
+  "uuidToIntID" : {
+    "1E908F61-93F6-4C5A-BABF-C1A8254DACEB" : -1054232776220218419,
+    "AC55A7AF-9A8F-4950-A1F5-6D78FEFB017E" : -344358195400563157,
+    "AF09ED6F-1707-48FD-8720-65B998362C09" : -2402250653010191691,
+    "D1512A00-CCBE-49A1-96EE-20B25A6C25DF" : 3835279080695408721,
+    "D28F8929-F6A4-4178-B64C-8336071B81C5" : -1985852996256560795,
+    "D6B2F974-CD3D-49CF-92D9-14F749E2BB4F" : -6027822792369233135
+  }
+}
