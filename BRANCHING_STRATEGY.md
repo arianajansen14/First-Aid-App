@@ -1,7 +1,7 @@
 # Branching Strategy for First-Aid-App
 
 This guide explains how we work with branches so multiple people can edit the project without breaking the main version.
-
+; works i hope
 ---
 
 # 1. What is a branch?
