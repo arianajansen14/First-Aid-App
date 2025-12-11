@@ -1,4 +1,4 @@
-# First-Aid-App — Collaboration Guide
+# First-Aid-App Collaboration Guide
 
 ## How to set up this project on your Mac
 
