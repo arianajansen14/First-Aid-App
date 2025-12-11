@@ -1,5 +1,8 @@
 # First-Aid-App Collaboration Guide
 
+ARIANA DID THIS
+
+
 ## How to set up this project on your Mac
 
 ### 1. Clone the repository
