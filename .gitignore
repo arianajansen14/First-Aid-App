@@ -11,6 +11,4 @@ DerivedData/
 
 # macOS
 *.DS_Store
-git add .gitignore
-git commit -m "add gitignore"
-git push
+
