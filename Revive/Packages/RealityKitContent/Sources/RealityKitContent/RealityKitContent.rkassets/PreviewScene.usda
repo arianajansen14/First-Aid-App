@@ -1,0 +1,46 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 2.0 (494.40.1)"
+    }
+    defaultPrim = "MaN"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def "MaN" (
+    active = true
+    customData = {
+        float3 rotationEulerHint = (-1.5707964, 0, 0)
+    }
+    prepend references = @MaN.usdz@
+)
+{
+    quatf xformOp:orient = (0.70710677, -0.70710677, 0, 0)
+    float3 xformOp:scale = (0.1, 0.1, 0.1)
+    float3 xformOp:translate = (-1.7415732e-7, 0.14599177, -0.06014208)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+    over "Man"
+    {
+        quatf xformOp:orient = (0.7071067, -0.7071068, 0, 0)
+        float3 xformOp:scale = (1, 1.0000001, 1.0000001)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Manguts" (
+            customData = {
+                dictionary RE = {
+                    dictionary mesh = {
+                        dictionary v1 = {
+                            bool reorderVertexCaching = 0
+                        }
+                    }
+                }
+            }
+        )
+        {
+        }
+    }
+}
+
