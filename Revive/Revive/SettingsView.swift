@@ -7,85 +7,119 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack(path: $path) {
 
-            VStack(alignment: .leading, spacing: 30) {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 30) {
 
-                Text("Settings")
-                    .font(.largeTitle.bold())
+                    // TITLE
+                    Text("Settings")
+                        .font(.largeTitle.bold())
 
-                Divider()
+                    // DESCRIPTION BELOW TITLE
+                    Text("Customise your training experience. Adjust appearance, accessibility and app preferences.")
+                        .font(.title3)
+                        .foregroundStyle(.secondary)
 
-                // BUTTON LIST
-                VStack(alignment: .leading, spacing: 20) {
+                    // =====================================================
+                    // SETTINGS BUTTONS
+                    // =====================================================
+                    VStack(spacing: 20) {
 
-                    Button {
-                        path.append("customisation")
-                    } label: {
-                        settingsRow(title: "Customisation", icon: "paintpalette")
+                        settingsButton(
+                            title: "Customisation",
+                            subtitle: "Change colours, skins and appearance.",
+                            icon: "paintpalette"
+                        ) {
+                            path.append("customisation")
+                        }
+
+                        settingsButton(
+                            title: "Accessibility",
+                            subtitle: "Reduce motion and adjust interaction comfort.",
+                            icon: "figure"
+                        ) {
+                            path.append("accessibility")
+                        }
+
+                        settingsButton(
+                            title: "App Info",
+                            subtitle: "Learn more about Revive and the development team.",
+                            icon: "info.circle"
+                        ) {
+                            path.append("appinfo")
+                        }
                     }
 
-                    Button {
-                        path.append("accessibility")
-                    } label: {
-                        settingsRow(title: "Accessibility", icon: "figure")
-                    }
+                    // =====================================================
+                    // DISCLAIMER SECTION (BOTTOM OF PAGE)
+                    // =====================================================
+                    VStack(alignment: .leading, spacing: 10) {
 
-                    Button {
-                        path.append("audio")
-                    } label: {
-                        settingsRow(title: "Audio & Haptics", icon: "waveform")
-                    }
+                        Text("ⓘ Some accessibility settings depend on your Vision Pro system preferences.")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
 
-                    Button {
-                        path.append("appinfo")
-                    } label: {
-                        settingsRow(title: "App Info", icon: "info.circle")
+                        Text("Revive automatically adapts to Reduce Motion, Increase Contrast and Transparency options where supported.")
+                            .font(.footnote)
+                            .foregroundColor(.secondary.opacity(0.8))
+                            .fixedSize(horizontal: false, vertical: true)
+
                     }
+                    .padding(.top, 30)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                    Spacer()
                 }
-
-                Spacer()
-
+                .padding(40)
+                .glassBackgroundEffect()
             }
-            .padding(40)
-            .glassBackgroundEffect()
 
-            // DESTINATIONS
+            // NAVIGATION DESTINATIONS
             .navigationDestination(for: String.self) { value in
                 switch value {
-
-                case "customisation":
-                    CustomisationView()
-
-                case "accessibility":
-                    Text("Accessibility Settings")
-                        .font(.title)
-
-                case "audio":
-                    Text("Audio & Haptics Settings")
-                        .font(.title)
-
-                case "appinfo":
-                    Text("App Info")
-                        .font(.title)
-
-                default:
-                    Text("Unknown Page")
+                case "customisation": CustomisationView()
+                case "accessibility": AccessibilitySettingsView()
+                case "appinfo": AppInfoView()
+                default: Text("Unknown Page")
                 }
             }
         }
     }
 
-    // MARK: - Row Style
-    private func settingsRow(title: String, icon: String) -> some View {
-        HStack {
-            Image(systemName: icon)
-            Text(title)
-                .font(.headline)
-            Spacer()
-            Image(systemName: "chevron.right")
-                .foregroundColor(.gray)
+    // =====================================================
+    // FULL-WIDTH TILE BUTTON COMPONENT
+    // =====================================================
+    private func settingsButton(title: String,
+                                subtitle: String,
+                                icon: String,
+                                action: @escaping () -> Void) -> some View {
+
+        Button(action: action) {
+            HStack(spacing: 16) {
+
+                Image(systemName: icon)
+                    .font(.title2)
+                    .frame(width: 30)
+
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(title)
+                        .font(.headline)
+
+                    Text(subtitle)
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
+
+                Spacer()
+
+                Image(systemName: "chevron.right")
+                    .foregroundColor(.gray)
+            }
+            .padding(16)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(.ultraThinMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 20))
         }
-        .padding(12)
-        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 12))
+        .buttonStyle(.plain)
     }
 }
 

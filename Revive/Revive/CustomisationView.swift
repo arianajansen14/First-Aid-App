@@ -8,68 +8,108 @@ import RealityKitContent
 
 struct CustomisationView: View {
 
+    // MARK: - State
     @State private var selectedColor: Color? = nil
-    @State private var rootEntity: Entity? = nil
-    @State private var meshEntity: ModelEntity? = nil
+
+    // Man model ("MaN")
+    @State private var manEntity: Entity? = nil
+    @State private var manMesh: ModelEntity? = nil
     @State private var originalMaterial: RealityKit.Material? = nil
+
+    // Joel model ("_09_08_2023")
+    @State private var joelEntity: Entity? = nil
+    @State private var isUsingJoel: Bool = false
 
     var body: some View {
         HStack {
 
-            // -----------------------------------------------------------
-            // LEFT SIDE UI
-            // -----------------------------------------------------------
+            // ===========================
+            // LEFT PANEL
+            // ===========================
             VStack(alignment: .leading, spacing: 20) {
 
                 Text("Customisation")
                     .font(.largeTitle.bold())
 
+                // ---------------------------
+                // COLOUR PRESETS
+                // ---------------------------
                 Text("Preset Colours")
                     .font(.headline)
 
-                // PRESET COLOUR CIRCLES
                 HStack {
-                    ForEach([Color.red, .green, .blue, .yellow, .orange, .pink],
+                    ForEach([Color.red, .orange, .yellow, .green, .blue, .indigo, .purple, .pink],
                             id: \.self) { col in
                         Circle()
                             .fill(col)
-                            .frame(width: 30, height: 30)
+                            .frame(width: 28, height: 28)
+                            .opacity(isUsingJoel ? 0.25 : 1.0)
                             .onTapGesture {
+                                guard !isUsingJoel else { return }
                                 selectedColor = col
                                 applyTint()
                             }
                     }
                 }
 
-                // LIVE PREVIEW TEXT (MOVED HERE)
-                Text(selectedColor == nil ?
-                     "Previewing original model" :
-                     "Previewing coloured model")
-                    .font(.headline)
-                    .foregroundColor(.secondary)
-                    .padding(.top, 10)
-
-                // IMPORT SKIN BUTTON (UI ONLY FOR NOW)
-                Button("Import Skin") {
-                    print("🟣 Import skin tapped — will implement later.")
+                // ---------------------------
+                // STATUS MESSAGE
+                // ---------------------------
+                Group {
+                    if isUsingJoel {
+                        Text("ⓘ Imported skins cannot be tinted.\nThey appear only in non-interactive steps.")
+                            .font(.callout)
+                            .foregroundColor(.orange)
+                    } else if selectedColor != nil {
+                        Text("Previewing coloured model")
+                            .foregroundColor(.secondary)
+                    } else {
+                        Text("Previewing original model")
+                            .foregroundColor(.secondary)
+                    }
                 }
-                .buttonStyle(.bordered)
 
+                // ---------------------------
+                // SKIN SWITCHER
+                // ---------------------------
+                Text("Skins")
+                    .font(.headline)
+                    .padding(.top, 6)
+
+                Button("Default Man") {
+                    switchToMan()
+                }
+
+                Button("Joel") {
+                    switchToJoel()
+                }
+
+                // ---------------------------
                 // RESET BUTTON
+                // ---------------------------
                 Button("Reset to Original") {
                     selectedColor = nil
                     resetTint()
+                    switchToMan()
                 }
                 .buttonStyle(.borderedProminent)
+
+                // ---------------------------
+                // SAVE BUTTON
+                // ---------------------------
+                Button("Save Appearance") {
+                    saveAppearance()
+                }
+                .buttonStyle(.bordered)
 
                 Spacer()
             }
             .frame(width: 350)
             .padding()
 
-            // -----------------------------------------------------------
-            // RIGHT SIDE — MODEL PREVIEW
-            // -----------------------------------------------------------
+            // ===========================
+            // MODEL PREVIEW
+            // ===========================
             VStack {
                 modelPreview
                     .frame(width: 600, height: 500)
@@ -77,79 +117,82 @@ struct CustomisationView: View {
             .padding()
         }
         .task {
-            await loadModel()
+            await loadPreviewScene()
         }
     }
 }
 
 //
-// MARK: - RealityView (no async allowed)
+// MARK: - RealityView
 //
 extension CustomisationView {
+
     private var modelPreview: some View {
         RealityView { content in
-            if let root = rootEntity {
-                if content.entities.isEmpty {
-                    content.add(root)
-                }
+
+            if content.entities.isEmpty {
+                if let man = manEntity { content.add(man) }
+                if let joel = joelEntity { content.add(joel) }
             }
         }
     }
 }
 
 //
-// MARK: - Load Model (async allowed)
+// MARK: - Load PreviewScene
 //
 extension CustomisationView {
 
-    private func loadModel() async {
-        guard rootEntity == nil else { return }
-
+    private func loadPreviewScene() async {
         do {
-            // LOAD YOUR MODEL
-            let entity = try await Entity.load(named: "MaN",
-                                               in: realityKitContentBundle)
+            let scene = try await Entity.load(
+                named: "PreviewScene",
+                in: realityKitContentBundle
+            )
 
-            // Auto-fit the model safely
-            autoFit(entity)
+            // MATCH EXACT NAMES FROM RCP
+            manEntity = scene.findEntity(named: "MaN")
+            joelEntity = scene.findEntity(named: "_09_08_2023")
 
-            rootEntity = entity
+            // Assign OpacityComponents manually (CRITICAL FIX)
+            manEntity?.components.set(OpacityComponent(opacity: 1.0))
+            joelEntity?.components.set(OpacityComponent(opacity: 0.0))
 
-            // FIND YOUR MAIN MESH
-            if let mesh = entity.findEntity(named: "Manguts") as? ModelEntity {
-                meshEntity = mesh
-                originalMaterial = mesh.model?.materials.first
-                print("✅ Found mesh: Manguts")
-            } else {
-                print("⚠️ Manguts NOT found")
-            }
+            // Tintable mesh
+            manMesh = manEntity?.findEntity(named: "Manguts") as? ModelEntity
+            originalMaterial = manMesh?.model?.materials.first
+
+            print("✅ Loaded PreviewScene")
+            print("→ Man found:", manEntity != nil)
+            print("→ Joel found:", joelEntity != nil)
 
         } catch {
-            print("❌ Failed to load MaN.usdz:", error)
+            print("❌ Failed to load PreviewScene:", error)
         }
     }
 }
 
 //
-// MARK: - Auto-fit model (no crashes)
+// MARK: - Visibility Switching
 //
 extension CustomisationView {
 
-    private func autoFit(_ entity: Entity) {
-        let bounds = entity.visualBounds(relativeTo: nil)
-        let maxDim = max(bounds.extents.x, bounds.extents.y, bounds.extents.z)
+    private func switchToMan() {
+        isUsingJoel = false
+        setOpacity(entity: manEntity, value: 1.0)
+        setOpacity(entity: joelEntity, value: 0.0)
+    }
 
-        // Your stable scale (was working)
-        let scale = 0.35 / max(0.001, maxDim)
+    private func switchToJoel() {
+        isUsingJoel = true
+        setOpacity(entity: manEntity, value: 0.0)
+        setOpacity(entity: joelEntity, value: 1.0)
+    }
 
-        entity.scale = [scale, scale, scale]
-
-        // Center it in view
-        entity.position = [
-            -bounds.center.x * scale,
-            -bounds.center.y * scale,
-            -bounds.center.z * scale
-        ]
+    private func setOpacity(entity: Entity?, value: Float) {
+        guard var opacity = entity?.components[OpacityComponent.self] else { return }
+        opacity.opacity = value
+        entity?.components.set(opacity)
     }
 }
 
@@ -159,7 +202,8 @@ extension CustomisationView {
 extension CustomisationView {
 
     private func applyTint() {
-        guard let mesh = meshEntity,
+        guard !isUsingJoel else { return }
+        guard let mesh = manMesh,
               let col = selectedColor else { return }
 
         var model = mesh.model
@@ -170,11 +214,27 @@ extension CustomisationView {
     }
 
     private func resetTint() {
-        guard let mesh = meshEntity,
+        guard let mesh = manMesh,
               let original = originalMaterial else { return }
 
         var model = mesh.model
         model?.materials = [original]
         mesh.model = model
+    }
+}
+
+//
+// MARK: - Save Appearance
+//
+extension CustomisationView {
+
+    private func saveAppearance() {
+        if isUsingJoel {
+            print("💾 Saved appearance: Joel")
+        } else if selectedColor != nil {
+            print("💾 Saved appearance: Tinted Man")
+        } else {
+            print("💾 Saved appearance: Default Man")
+        }
     }
 }

@@ -17,8 +17,8 @@ def "MaN" (
 )
 {
     quatf xformOp:orient = (0.70710677, -0.70710677, 0, 0)
-    float3 xformOp:scale = (0.1, 0.1, 0.1)
-    float3 xformOp:translate = (-1.7415732e-7, 0.14599177, -0.06014208)
+    float3 xformOp:scale = (0.15, 0.15, 0.15)
+    float3 xformOp:translate = (-1.7415732e-7, 0.081882834, -0.060142137)
     uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
     over "Man"
@@ -40,7 +40,48 @@ def "MaN" (
             }
         )
         {
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (0, 5.960464477539063e-8, 0.19374841451644897)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
         }
+    }
+
+    def "_09_08_2023" (
+        active = true
+        customData = {
+            float3 rotationEulerHint = (-3.1415925, 1.5707963, -3.1415925)
+        }
+        prepend references = @09_08_2023.usdz@</object>
+    )
+    {
+        float2 ui:nodegraph:node:pos = (20, 20)
+        int ui:nodegraph:node:stackingOrder = 1
+        quatf xformOp:orient = (0.70710677, 2.3335357e-15, 0.70710677, 2.3335357e-15)
+        float3 xformOp:scale = (0.2, 0.2, 0.2)
+        float3 xformOp:translate = (0.05113615, 0.026478767, -0.15157637)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "materials"
+        {
+            over "material"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+            }
+        }
+
+        def RealityKitComponent "HierarchicalFade"
+        {
+            uniform token info:id = "RealityKit.HierarchicalFade"
+            float opacity = 0
+        }
+    }
+
+    def RealityKitComponent "HierarchicalFade"
+    {
+        uniform token info:id = "RealityKit.HierarchicalFade"
+        float opacity = 1
     }
 }
 
