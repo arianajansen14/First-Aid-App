@@ -2,8 +2,6 @@
 //  ReviveApp.swift
 //  Revive
 //
-//  Created by ariana jansen on 05/01/2026.
-//
 
 import SwiftUI
 
@@ -13,21 +11,19 @@ struct ReviveApp: App {
     @State private var appModel = AppModel()
 
     var body: some Scene {
+
+        // MAIN APP WINDOW
         WindowGroup {
             AppEntryView()
                 .environment(appModel)
         }
 
-        ImmersiveSpace(id: appModel.immersiveSpaceID) {
-            ImmersiveView()
+        // SEPARATE VOLUME WINDOW
+        WindowGroup(id: appModel.modelWindowID) {
+            AssessmentModelView()
                 .environment(appModel)
-                .onAppear {
-                    appModel.immersiveSpaceState = .open
-                }
-                .onDisappear {
-                    appModel.immersiveSpaceState = .closed
-                }
         }
-        .immersionStyle(selection: .constant(.mixed), in: .mixed)
-     }
+        .defaultSize(width: 0.35, height: 0.35)
+        .windowStyle(.volumetric)
+    }
 }

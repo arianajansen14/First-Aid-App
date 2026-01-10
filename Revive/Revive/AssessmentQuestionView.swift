@@ -41,7 +41,7 @@ struct AssessmentQuestionView: View {
     private var questionPage: some View {
         let current = questions[index]
 
-        return VStack(spacing: 40) {
+        return VStack(spacing: 36) {
 
             // TITLE
             Text(current.question)
@@ -52,17 +52,29 @@ struct AssessmentQuestionView: View {
             // ANSWERS GRID (2x2)
             answersGrid(for: current.answers)
 
-            // EXPLANATION (after answer is chosen)
+            // EXPLANATION (after answer)
             if showExplanation {
                 Text(current.explanation)
                     .font(.body)
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
-                    .padding(.top, 10)
             }
 
             Spacer()
+
+            // ============================
+            // SHOW MODEL BUTTON (does nothing yet)
+            // ============================
+            Button {
+                print("Show Model pressed")   // ← does NOTHING
+            } label: {
+                Text("Show Model")
+                    .font(.headline)
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 10)
+            }
+            .buttonStyle(.borderedProminent)
 
             // NEXT / FINISH BUTTON
             Button(action: nextQuestion) {
@@ -73,7 +85,7 @@ struct AssessmentQuestionView: View {
             }
             .buttonStyle(.borderedProminent)
             .controlSize(.large)
-            .disabled(selectedAnswer == nil)  // must choose first
+            .disabled(selectedAnswer == nil)
 
         }
         .padding(50)
@@ -102,7 +114,7 @@ struct AssessmentQuestionView: View {
 
         let isSelected = selectedAnswer == answerIndex
         let isCorrect = current.correctIndex == answerIndex
-        let revealColours = selectedAnswer != nil   // show green/red after selecting
+        let revealColours = selectedAnswer != nil
 
         return Button {
             handleAnswer(answerIndex)
@@ -116,9 +128,9 @@ struct AssessmentQuestionView: View {
                     RoundedRectangle(cornerRadius: 14)
                         .fill(
                             revealColours
-                            ? (isCorrect ? Color.green.opacity(0.35) :
-                                (isSelected ? Color.red.opacity(0.35) : .clear))
-                            : Color.clear
+                            ? (isCorrect ? Color.green.opacity(0.35)
+                                          : (isSelected ? Color.red.opacity(0.35) : .clear))
+                            : .clear
                         )
                 )
                 .background(
@@ -127,7 +139,7 @@ struct AssessmentQuestionView: View {
                 )
         }
         .buttonStyle(.plain)
-        .disabled(selectedAnswer != nil)   // lock after choosing
+        .disabled(selectedAnswer != nil)
     }
 
     // MARK: - HANDLE ANSWER
@@ -136,13 +148,12 @@ struct AssessmentQuestionView: View {
         selectedAnswer = answer
         showExplanation = true
 
-        // scoring
         if answer == current.correctIndex {
             score += 1
         }
     }
 
-    // MARK: - NEXT QUESTION LOGIC
+    // MARK: - NEXT QUESTION
     private func nextQuestion() {
         guard selectedAnswer != nil else { return }
 
@@ -155,7 +166,7 @@ struct AssessmentQuestionView: View {
         }
     }
 
-    // MARK: - RESTART MODULE
+    // MARK: - RESTART
     private func restartModule() {
         index = 0
         selectedAnswer = nil
