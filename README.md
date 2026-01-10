@@ -1,6 +1,5 @@
 # First-Aid-App Collaboration Guide
 
-ARIANA DID THIS
 ## Notes
 "bruh" file is logo file+visual sorry i didnt write a description :( - dajia 6/01/26
 
