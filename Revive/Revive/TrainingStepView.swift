@@ -11,44 +11,55 @@ struct TrainingStepView: View {
     let onNext: () -> Void
 
     var body: some View {
-        VStack(spacing: 40) {
+        ScrollView {     // ← Prevents stretching on tall visionOS windows
+            VStack(spacing: 30) {
 
-            // TITLE
-            Text(step.title)
-                .font(.largeTitle.bold())
-                .multilineTextAlignment(.center)
+                // TITLE
+                Text(step.title)
+                    .font(.largeTitle.bold())
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: 600)   // ← Keeps it centered and narrow
 
-            // DESCRIPTION
-            Text(step.description)
-                .font(.title3)
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal)
+                // DESCRIPTION
+                Text(step.description)
+                    .font(.title3)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: 600)   // ← Prevents long text from stretching
+                    .padding(.horizontal)
 
-            // OPTIONAL RealityKit Scene
-            if let sceneName = step.sceneName {
+                // 3D SCENE (Optional)
+                let sceneToLoad = step.sceneName ?? "TrainingScene"
+
                 TrainingSceneView(
-                    sceneName: sceneName,
-                    tintEnabled: true   // <--- FIXED
+                    sceneName: sceneToLoad,
+                    tintEnabled: sceneToLoad == "TrainingScene"
                 )
-                .frame(height: 400)
-                .padding()
-            }
+                .frame(width: 500, height: 350)   // ← FIXED SIZE so it doesn’t overshoot
+                .glassBackgroundEffect()          // ← Makes it look like a nice tile
+                .clipShape(RoundedRectangle(cornerRadius: 25))
+                .padding(.top, 10)
 
-            // OPTIONAL SwiftUI Custom View
-            if let customView = step.customView {
-                customView
-            }
+                // CUSTOM ILLUSTRATION (Optional)
+                if let customView = step.customView {
+                    customView
+                        .frame(maxWidth: 500)     // keeps images centered
+                }
 
-            Spacer()
-
-            // NEXT BUTTON
-            Button("Next") {
-                onNext()
+                // NEXT BUTTON
+                Button(action: onNext) {
+                    Text("Next")
+                        .font(.title2.bold())
+                        .padding(.horizontal, 40)
+                        .padding(.vertical, 12)
+                }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.large)
+                .padding(.top, 20)
             }
-            .buttonStyle(.borderedProminent)
-            .controlSize(.large)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 40)
         }
-        .padding(40)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
