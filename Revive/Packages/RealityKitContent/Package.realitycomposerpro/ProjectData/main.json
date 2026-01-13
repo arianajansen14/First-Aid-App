@@ -8,10 +8,16 @@
     "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Immersive.usda" : "AF09ED6F-1707-48FD-8720-65B998362C09",
     "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/JoelScene.usda" : "F53E7943-3431-4B98-8EBA-D945BFF42FF4",
     "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/PreviewScene.usda" : "CEB5E558-DEA3-4A0A-A72D-3EFFCC402D66",
-    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Scene.usda" : "D66134B1-3681-4A8E-AFE5-29F257229F3B"
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Scene.usda" : "D66134B1-3681-4A8E-AFE5-29F257229F3B",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/TrainingScene.usda" : "1A0D1083-CB00-4349-A7AF-2BE4DC46515F",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/cprhands.usda" : "1B8A574F-BA73-4F3C-8C4B-EA448900FB11",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/cprhelp.usda" : "6F26BBF5-5967-4519-8A05-986F20475390"
   },
   "projectID" : 4621562661520844481,
   "uuidToIntID" : {
+    "1A0D1083-CB00-4349-A7AF-2BE4DC46515F" : -706074592092873676,
+    "1B8A574F-BA73-4F3C-8C4B-EA448900FB11" : -4575166975860671027,
+    "6F26BBF5-5967-4519-8A05-986F20475390" : -7564655375194839874,
     "AF09ED6F-1707-48FD-8720-65B998362C09" : 356119439001263426,
     "CEB5E558-DEA3-4A0A-A72D-3EFFCC402D66" : 6362971980172158033,
     "F53E7943-3431-4B98-8EBA-D945BFF42FF4" : -3121688191068369378
