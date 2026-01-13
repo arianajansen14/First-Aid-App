@@ -19,9 +19,9 @@ struct SettingsView: View {
                         .font(.title3)
                         .foregroundStyle(.secondary)
 
-                    // =====================================================
+                
                     // SETTINGS BUTTONS
-                    // =====================================================
+                   
                     VStack(spacing: 20) {
 
                         settingsButton(
@@ -49,9 +49,8 @@ struct SettingsView: View {
                         }
                     }
 
-                    // =====================================================
                     // DISCLAIMER SECTION (BOTTOM OF PAGE)
-                    // =====================================================
+                    
                     VStack(alignment: .leading, spacing: 10) {
 
                         Text("ⓘ Some accessibility settings depend on your Vision Pro system preferences.")
@@ -85,9 +84,9 @@ struct SettingsView: View {
         }
     }
 
-    // =====================================================
+  
     // FULL-WIDTH TILE BUTTON COMPONENT
-    // =====================================================
+   
     private func settingsButton(title: String,
                                 subtitle: String,
                                 icon: String,

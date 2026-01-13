@@ -23,6 +23,10 @@ struct AssessmentQuestionView: View {
 
     @Environment(\.dismiss) private var dismiss
 
+    // REQUIRED FOR SHOW MODEL BUTTON
+    @Environment(AppModel.self) private var appModel
+    @Environment(\.openWindow) private var openWindow
+
     var body: some View {
         if showResults {
             AssessmentResultView(
@@ -52,7 +56,7 @@ struct AssessmentQuestionView: View {
             // ANSWERS GRID (2x2)
             answersGrid(for: current.answers)
 
-            // EXPLANATION (after answer)
+            // EXPLANATION
             if showExplanation {
                 Text(current.explanation)
                     .font(.body)
@@ -63,11 +67,9 @@ struct AssessmentQuestionView: View {
 
             Spacer()
 
-            // ============================
-            // SHOW MODEL BUTTON (does nothing yet)
-            // ============================
+            // SHOW MODEL BUTTON — NOW WORKS
             Button {
-                print("Show Model pressed")   // ← does NOTHING
+                openWindow(id: appModel.modelWindowID)   // ← OPENS WINDOW
             } label: {
                 Text("Show Model")
                     .font(.headline)
@@ -94,7 +96,7 @@ struct AssessmentQuestionView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
 
-    // MARK: - 2×2 ANSWER GRID
+    // MARK: - 2×2 GRID
     private func answersGrid(for answers: [String]) -> some View {
         VStack(spacing: 20) {
             HStack(spacing: 20) {

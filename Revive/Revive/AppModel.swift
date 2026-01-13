@@ -12,18 +12,20 @@ class AppModel {
     // MODEL WINDOW STATE
     // ============================================================
 
-    /// Volume Window ID used in ReviveApp
+    /// Unique window ID
     let modelWindowID = "AssessmentModelWindow"
 
-    /// Whether model window should be visible
+    /// Whether the model window should be visible
     var isModelVisible: Bool = false
 
-
-    // Toggle on/off (called by the Show Model button)
-    func toggleModel() {
-        isModelVisible.toggle()
+    /// Toggle and request opening
+    func showModelWindow() {
+        isModelVisible = true
     }
 
+    func hideModelWindow() {
+        isModelVisible = false
+    }
 
     // ============================================================
     // IMMERSIVE SPACE STATE
