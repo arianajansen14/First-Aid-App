@@ -1,10 +1,6 @@
 {
   "images" : [
-    {
-      "filename" : "fuckinglogoforari.001.png",
-      "idiom" : "vision",
-      "scale" : "2x"
-    }
+
   ],
   "info" : {
     "author" : "xcode",
