@@ -1,8 +1,6 @@
 import SwiftUI
 
-// =====================================================================
 // MARK: - DATA MODEL
-// =====================================================================
 
 struct TrainingStep: Identifiable {
     let id = UUID()
@@ -11,10 +9,7 @@ struct TrainingStep: Identifiable {
     let customView: AnyView?
 }
 
-
-// =====================================================================
 // MARK: - TRAINING STEP VIEW (Swipe + Prev/Next + Finish)
-// =====================================================================
 
 struct TrainingStepView: View {
 
@@ -27,25 +22,19 @@ struct TrainingStepView: View {
     var body: some View {
         VStack(spacing: 30) {
 
-            // -------------------------------------------------------------
             // TITLE
-            // -------------------------------------------------------------
             Text(steps[currentIndex].title)
                 .font(.largeTitle.bold())
                 .multilineTextAlignment(.center)
 
-            // -------------------------------------------------------------
             // DESCRIPTION
-            // -------------------------------------------------------------
             Text(steps[currentIndex].description)
                 .font(.title3)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 20)
 
-            // -------------------------------------------------------------
             // OPTIONAL CUSTOM VIEW (for animation tiles later)
-            // -------------------------------------------------------------
             if let custom = steps[currentIndex].customView {
                 custom
                     .frame(maxWidth: .infinity, maxHeight: 250)
@@ -54,9 +43,7 @@ struct TrainingStepView: View {
 
             Spacer()
 
-            // -------------------------------------------------------------
             // PAGE DOTS
-            // -------------------------------------------------------------
             HStack(spacing: 8) {
                 ForEach(0..<steps.count, id: \.self) { idx in
                     Circle()
@@ -65,9 +52,7 @@ struct TrainingStepView: View {
                 }
             }
 
-            // -------------------------------------------------------------
             // PREV / NEXT BUTTONS
-            // -------------------------------------------------------------
             HStack(spacing: 20) {
 
                 // PREVIOUS
@@ -96,9 +81,7 @@ struct TrainingStepView: View {
         .gesture(dragGesture)
     }
 
-    // =====================================================================
     // MARK: - Logic
-    // =====================================================================
 
     private var dragGesture: some Gesture {
         DragGesture()

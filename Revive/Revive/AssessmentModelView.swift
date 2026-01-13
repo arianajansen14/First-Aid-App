@@ -70,9 +70,7 @@ extension AssessmentModelView {
         rootEntity.addChild(model)
     }
 
-    // --------------------------
     // Tint mesh if saved
-    // --------------------------
     private func tintMan(on entity: Entity) {
         guard let tintColor = Color(hex: savedTintHex),
               let mesh = entity.findEntity(named: "Manguts") as? ModelEntity else { return }
@@ -82,9 +80,7 @@ extension AssessmentModelView {
         ]
     }
 
-    // --------------------------
     // Scale + center
-    // --------------------------
     private func autoFit(_ entity: Entity) {
         let bounds = entity.visualBounds(relativeTo: nil)
         let maxDim = max(bounds.extents.x, bounds.extents.y, bounds.extents.z)
