@@ -1,30 +1,36 @@
-//
-//  ImmersiveView.swift
-//  Revive
-//
-//  Created by ariana jansen on 05/01/2026.
-//
-
 import SwiftUI
 import RealityKit
 import RealityKitContent
 
 struct ImmersiveView: View {
 
+    @Environment(AppModel.self) private var model
+    @State private var root = Entity()
+
     var body: some View {
         RealityView { content in
-            // Add the initial RealityKit content
-            if let immersiveContentEntity = try? await Entity(named: "Immersive", in: realityKitContentBundle) {
-                content.add(immersiveContentEntity)
-
-                // Put skybox here.  See example in World project available at
-                // https://developer.apple.com/
+            if root.parent == nil {
+                content.add(root)
             }
         }
+        .task {
+            await loadScene(model.pendingScene)
+        }
+        .onChange(of: model.pendingScene) { _, newScene in
+            Task { await loadScene(newScene) }
+        }
     }
-}
 
-#Preview(immersionStyle: .mixed) {
-    ImmersiveView()
-        .environment(AppModel())
+    private func loadScene(_ name: String) async {
+        root.children.removeAll()
+
+        guard let scene = try? await Entity.load(named: name,
+                                                 in: realityKitContentBundle)
+        else {
+            print("❌ Failed to load immersive scene:", name)
+            return
+        }
+
+        root.addChild(scene.clone(recursive: true))
+    }
 }

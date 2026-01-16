@@ -1,38 +1,43 @@
-//
 //  AppModel.swift
-//  Revive
-//
 
 import SwiftUI
 
 @Observable
 class AppModel {
 
-    // ============================================================
-    // MODEL WINDOW STATE
-    // ============================================================
-
-    /// Unique window ID
+    // volumetric assessment window
     let modelWindowID = "AssessmentModelWindow"
-
-    /// Whether the model window should be visible
     var isModelVisible: Bool = false
 
-    /// Toggle and request opening
-    func showModelWindow() {
-        isModelVisible = true
-    }
+    func showModelWindow() { isModelVisible = true }
+    func hideModelWindow() { isModelVisible = false }
 
-    func hideModelWindow() {
-        isModelVisible = false
-    }
-
-    // ============================================================
-    // IMMERSIVE SPACE STATE
-    // ============================================================
-
+    // immersive space
     let immersiveSpaceID = "ImmersiveSpace"
-
     enum ImmersiveState { case closed, open }
     var immersiveSpaceState: ImmersiveState = .closed
+
+    // current immersive scene to load
+    var pendingScene: String = "TrainingScene"
+
+    func requestScene(_ name: String) {
+        print("🌐 Loading immersive scene:", name)
+        pendingScene = name
+    }
+
+    // immersive helpers called by the button
+
+    func openImmersiveSpace() {
+        immersiveSpaceState = .open
+        print("🟢 Immersive space opened")
+    }
+
+    func closeImmersiveSpace() {
+        immersiveSpaceState = .closed
+        print("🔴 Immersive space closed")
+    }
+
+    func loadScene(_ name: String) {
+        requestScene(name)
+    }
 }

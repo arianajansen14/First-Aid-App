@@ -10,7 +10,7 @@ import RealityKitContent
 struct TrainingSceneView: View {
 
     let sceneName: String
-    let tintEnabled: Bool      // <—— REQUIRED
+    let tintEnabled: Bool   // kept for compatibility, but does nothing
 
     @State private var root = Entity()
 
@@ -27,36 +27,23 @@ struct TrainingSceneView: View {
         .padding(.vertical)
     }
 
-    // MARK: - Load Scene
+    // loads your RealityKit scene
     private func loadScene() async {
         root.children.removeAll()
 
-        guard let scene = try? await Entity.load(named: sceneName,
-                                                 in: realityKitContentBundle)
-        else {
+        guard let scene = try? await Entity.load(
+            named: sceneName,
+            in: realityKitContentBundle
+        ) else {
             print("❌ Failed to load scene:", sceneName)
             return
         }
 
         let model = scene.clone(recursive: true)
 
-        if tintEnabled {
-            applyTint(to: model)
-        }
+        // tint has been disabled permanently
+        // (kept structure but no tint applied)
 
         root.addChild(model)
-    }
-
-    // MARK: - Tint Application
-    private func applyTint(to entity: Entity) {
-        guard
-            let hex = UserDefaults.standard.string(forKey: "savedTintColor"),
-            let color = Color(hex: hex),
-            let mesh = entity.findEntity(named: "Manguts") as? ModelEntity
-        else { return }
-
-        mesh.model?.materials = [
-            SimpleMaterial(color: UIColor(color), isMetallic: false)
-        ]
     }
 }
